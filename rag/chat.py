@@ -40,7 +40,7 @@ Context:
 {context}
 """
 response = ollama.chat(
-    model="llama3.2",     # or "llama3", "mistral", etc.
+    model="llama3.2",
     messages=[
         { "role": "system", "content": SYSTEM_PROMPT },
         { "role": "user", "content": user_query }
