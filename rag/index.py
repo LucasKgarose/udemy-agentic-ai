@@ -1,6 +1,12 @@
 from pathlib import Path
 from langchain_community.document_loaders import PyPDFLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_ollama import OllamaEmbeddings
+from langchain_qdrant import QdrantVectorStore
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 pdf_path = Path(__file__).parent / "sample.pdf"
 
@@ -19,3 +25,20 @@ text_splitter = RecursiveCharacterTextSplitter(
 )
 
 chunks = text_splitter.split_documents(pages)
+
+# Vector Embeddings
+embedding_model = OllamaEmbeddings(
+    model="nomic-embed-text"
+)
+
+# Connect to Qdrant and create a vector store
+vector_store = QdrantVectorStore.from_documents(
+    documents=chunks,
+    embedding=embedding_model,
+    url=os.getenv("QDRANT_URL"),
+    api_key=os.getenv("QDRANT_API_KEY"),
+    # port=int(os.getenv("QDRANT_PORT")),
+    collection_name="learning_rag",
+)
+
+print("indexing of documents completed...")
