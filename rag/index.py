@@ -5,6 +5,7 @@ from langchain_ollama import OllamaEmbeddings
 from langchain_qdrant import QdrantVectorStore
 from dotenv import load_dotenv
 import os
+from summarize import summarize_document
 
 load_dotenv()
 
@@ -25,6 +26,11 @@ text_splitter = RecursiveCharacterTextSplitter(
 )
 
 chunks = text_splitter.split_documents(pages)
+
+print(f"Created {len(chunks)} chunks from the document.")
+
+# Summarize the entire document after chunking
+document_summary = summarize_document(chunks)
 
 # Vector Embeddings
 embedding_model = OllamaEmbeddings(
