@@ -41,10 +41,8 @@ embedding_model = OllamaEmbeddings(
 vector_store = QdrantVectorStore.from_documents(
     documents=chunks,
     embedding=embedding_model,
-    url=os.getenv("QDRANT_URL"),
-    api_key=os.getenv("QDRANT_API_KEY"),
-    # port=int(os.getenv("QDRANT_PORT")),
-    collection_name="learning_rag",
+    url="http://localhost:6333",
+    collection_name="learning_rag"
 )
 
 print("indexing of documents completed...")

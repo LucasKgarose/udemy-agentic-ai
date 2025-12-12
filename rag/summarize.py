@@ -74,7 +74,7 @@ Section Summaries:
 """
     
     response = ollama.chat(
-        model="llama3.2",
+        model="gpt-oss:20b",
         messages=[
             {
                 "role": "user",
